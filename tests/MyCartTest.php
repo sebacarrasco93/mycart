@@ -14,7 +14,7 @@ class MyCartTest extends TestCase
             'name' => "Lemon Waffle by SoloWaffles",
         ];
         
-        $cart = MyCart::add($item);
+        MyCart::add($item);
 
         $this->assertEquals($item, session('mycart')['items'][0]);
     }
@@ -26,8 +26,27 @@ class MyCartTest extends TestCase
             'name' => "Lemon Waffle by SoloWaffles",
         ];
         
-        $cart = MyCart::add($item, 'waffles');
+        MyCart::add($item, 'waffles');
         
         $this->assertEquals($item, session('mycart')['waffles'][0]);
+    }
+
+    /** @test */
+    function it_can_get_all_the_items() {
+        $itemOne = [
+            'uuid' => '111AAA',
+            'name' => "Lemon Waffle by SoloWaffles",
+        ];
+
+        $itemTwo = [
+            'uuid' => '222BBB',
+            'name' => "Mixed Waffle by SoloWaffles",
+        ];
+        
+        MyCart::add($itemOne);
+        MyCart::add($itemTwo);
+
+        $this->assertEquals($itemOne, MyCart::get()[0]);
+        $this->assertEquals($itemTwo, MyCart::get()[1]);
     }
 }

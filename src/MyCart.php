@@ -15,8 +15,14 @@ class MyCart extends Model
         session([$this->sessionName => $this->attributes]);
     }
 
-    public function get()
+    public function get($key = 'items')
     {
-        // return $this->items;
+        if ($sesion = session($this->sessionName)) {
+            if (isset($sesion[$key])) {
+                return collect($sesion[$key]);
+            }
+        }
+
+        // return null;
     }
 }
