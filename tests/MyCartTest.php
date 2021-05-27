@@ -84,4 +84,32 @@ class MyCartTest extends TestCase
     function it_can_find_an_item_by_their_uuid_if_it_doesnt_have_any_items() {
         $this->assertNull(MyCart::findByUuid('222BBB'));
     }
+
+    /** @test */
+    function it_can_flush_all_the_items() {
+        $itemOne = [
+            'uuid' => '111AAA',
+            'name' => "Lemon Waffle by SoloWaffles",
+        ];
+        
+        MyCart::add($itemOne);
+
+        MyCart::flush();
+
+        $this->assertNull(MyCart::get());
+    }
+
+    /** @test */
+    function it_can_flush_all_the_items_with_a_custom_key() {
+        $itemOne = [
+            'uuid' => '111AAA',
+            'name' => "Lemon Waffle by SoloWaffles",
+        ];
+        
+        MyCart::add($itemOne, 'customCart');
+
+        MyCart::flush('customCart');
+
+        $this->assertNull(MyCart::get('customCart'));
+    }
 }

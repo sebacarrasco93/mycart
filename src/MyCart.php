@@ -34,4 +34,11 @@ class MyCart extends Model
             return $found ? $found->first() : null;
         }
     }
+
+    public function flush(string $key = 'items')
+    {
+        $this->attributes[$key] = null;
+
+        session([$this->sessionName => $this->attributes]);
+    }
 }
