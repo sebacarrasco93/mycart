@@ -1,0 +1,30 @@
+{
+    "name": "sebacarrasco93/mycart",
+    "type": "package",
+    "description": "Cart for Laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Seba Carrasco Poblete",
+            "email": "cbknxd@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SebaCarrasco93\\MyCart\\": "src/"
+        }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.18"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SebaCarrasco93\\MyCart\\MyCartServiceProvider"
+            ],
+            "aliases": {
+                "MyCart": "SebaCarrasco93\\MyCart\\Facades\\MyCart"
+            }
+        }
+    }
+}
