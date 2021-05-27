@@ -51,8 +51,12 @@ class MyCart extends Model
         return 0;
     }
 
-    public function total(string $key = 'items')
+    public function total(string $key = 'items', $totalName = 'total')
     {
-        // código...
+        if ($get = $this->get($key)) {
+            return $get->pluck($totalName)->sum();
+        }
+
+        return 0;
     }
 }

@@ -153,4 +153,69 @@ class MyCartTest extends TestCase
     function it_can_get_count_of_zero_items_if_doesnt_have_items() {
         $this->assertEquals(0, MyCart::count());
     }
+
+    /** @test */
+    function it_knows_its_total() {
+        $itemOne = [
+            'uuid' => '111AAA',
+            'name' => "Lemon Waffle by SoloWaffles",
+            'total' => '8.5'
+        ];
+
+        $itemTwo = [
+            'uuid' => '222BBB',
+            'name' => "Mixed Waffle by SoloWaffles",
+            'total' => '7.9'
+        ];
+
+        MyCart::add($itemOne);
+        MyCart::add($itemTwo);
+
+        $this->assertEquals(16.4, MyCart::total());
+    }
+
+    /** @test */
+    function it_knows_its_total_with_a_custom_key() {
+        $itemOne = [
+            'uuid' => '111AAA',
+            'name' => "Lemon Waffle by SoloWaffles",
+            'total' => '8.5'
+        ];
+
+        $itemTwo = [
+            'uuid' => '222BBB',
+            'name' => "Mixed Waffle by SoloWaffles",
+            'total' => '7.9'
+        ];
+
+        MyCart::add($itemOne, 'AnotherCart');
+        MyCart::add($itemTwo, 'AnotherCart');
+
+        $this->assertEquals(16.4, MyCart::total('AnotherCart'));
+    }
+
+    /** @test */
+    function it_knows_its_total_with_a_custom_key_and_total_name() {
+        $itemOne = [
+            'uuid' => '111AAA',
+            'name' => "Lemon Waffle by SoloWaffles",
+            'partial_total' => '6.1'
+        ];
+
+        $itemTwo = [
+            'uuid' => '222BBB',
+            'name' => "Mixed Waffle by SoloWaffles",
+            'partial_total' => '4.6'
+        ];
+
+        MyCart::add($itemOne, 'AnotherCart', 'partial_total');
+        MyCart::add($itemTwo, 'AnotherCart', 'partial_total');
+
+        $this->assertEquals(10.7, MyCart::total('AnotherCart', 'partial_total'));
+    }
+
+    /** @test */
+    function it_can_get_total_of_zero_if_doesnt_have_items() {
+        $this->assertEquals(0, MyCart::total());
+    }
 }
