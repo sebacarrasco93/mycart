@@ -50,4 +50,9 @@ class MyCart extends Model
 
         return 0;
     }
+
+    public function total(string $key = 'items')
+    {
+        // código...
+    }
 }

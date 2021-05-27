@@ -148,4 +148,9 @@ class MyCartTest extends TestCase
 
         $this->assertEquals(2, MyCart::count('customCart'));
     }
+
+    /** @test */
+    function it_can_get_count_of_zero_items_if_doesnt_have_items() {
+        $this->assertEquals(0, MyCart::count());
+    }
 }
