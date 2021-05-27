@@ -2,10 +2,21 @@
 
 namespace SebaCarrasco93\MyCart;
 
-class MyCart
+use Jenssegers\Model\Model;
+
+class MyCart extends Model
 {
+    protected $sessionName = 'mycart';
+
+    public function add(array $item, $key = 'items')
+    {
+        $this->attributes[$key][] = $item;
+
+        session([$this->sessionName => $this->attributes]);
+    }
+
     public function get()
     {
-        // código...
+        // return $this->items;
     }
 }

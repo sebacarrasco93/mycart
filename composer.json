@@ -14,6 +14,11 @@
             "SebaCarrasco93\\MyCart\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "SebaCarrasco93\\MyCart\\Tests\\": "tests"
+        }
+    },
     "require-dev": {
         "orchestra/testbench": "^6.18"
     },
@@ -26,5 +31,8 @@
                 "MyCart": "SebaCarrasco93\\MyCart\\Facades\\MyCart"
             }
         }
+    },
+    "require": {
+        "jenssegers/model": "^1.4"
     }
 }
