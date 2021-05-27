@@ -2,6 +2,7 @@
 
 namespace SebaCarrasco93\MyCart\Tests;
 
+use SebaCarrasco93\MyCart\Tests\TestCase;
 use SebaCarrasco93\MyCart\Facades\MyCart;
 use SebaCarrasco93\MyCart\MyCartServiceProvider;
 
