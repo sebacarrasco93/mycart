@@ -8,7 +8,9 @@ class MyCartServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        // código...
+        $this->publishes([
+            __DIR__ . '/../config/mycart.php' => base_path('config/mycart.php')
+        ], 'mycart-config');
     }
 
     public function register()
@@ -16,5 +18,7 @@ class MyCartServiceProvider extends ServiceProvider
         $this->app->bind('mycart', function() {
             return new MyCart();
         });
+
+        $this->mergeConfigFrom(__DIR__ . '/../config/mycart.php', 'mycart');
     }
 }

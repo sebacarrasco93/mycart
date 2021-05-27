@@ -9,6 +9,17 @@ use SebaCarrasco93\MyCart\MyCartServiceProvider;
 class MyCartTest extends TestCase
 {
     /** @test */
+    function it_can_know_its_keyname() {
+        $this->assertEquals('mycart', MyCart::getSessionName());
+    }
+
+    /** @test */
+    function it_can_change_its_keyname() {
+        config(['mycart.session_name' => 'cart-2']);
+        $this->assertEquals('cart-2', MyCart::getSessionName());
+    }
+
+    /** @test */
     function it_can_add_an_item() {
         $item = [
             'uuid' => '111AAA',
