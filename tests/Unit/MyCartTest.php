@@ -9,18 +9,45 @@ use SebaCarrasco93\MyCart\MyCartServiceProvider;
 class MyCartTest extends TestCase
 {
     /** @test */
-    function it_can_know_its_keyname() {
+    function it_can_know_its_default_session_name() {
         $this->assertEquals('mycart', MyCart::getSessionName());
     }
 
     /** @test */
-    function it_can_change_its_keyname() {
+    function it_can_change_its_session_name() {
         config(['mycart.session_name' => 'cart-2']);
+
         $this->assertEquals('cart-2', MyCart::getSessionName());
     }
 
     /** @test */
+    function it_can_know_its_default_items_name() {
+        $this->assertEquals('items', MyCart::getItemsName());
+    }
+
+    /** @test */
+    function it_can_change_its_items_name() {
+        config(['mycart.items_name' => 'products']);
+
+        $this->assertEquals('products', MyCart::getItemsName());
+    }
+
+    /** @test */
+    function it_can_know_its_default_price_name() {
+        $this->assertEquals('price', MyCart::getPriceName());
+    }
+
+    /** @test */
+    function it_can_change_its_price_name() {
+        config(['mycart.price_name' => 'subtotal']);
+
+        $this->assertEquals('subtotal', MyCart::getPriceName());
+    }
+
+    /** @test */
     function it_can_add_an_item() {
+        config(['mycart.items_name' => 'products']);
+
         $item = [
             'uuid' => '111AAA',
             'name' => "Lemon Waffle by SoloWaffles",
@@ -28,7 +55,7 @@ class MyCartTest extends TestCase
         
         MyCart::add($item);
 
-        $this->assertEquals($item, session('mycart')['items'][0]);
+        $this->assertEquals($item, session('mycart')['products'][0]);
     }
 
     /** @test */
@@ -171,13 +198,13 @@ class MyCartTest extends TestCase
         $itemOne = [
             'uuid' => '111AAA',
             'name' => "Lemon Waffle by SoloWaffles",
-            'total' => '8.5'
+            'price' => '8.5'
         ];
 
         $itemTwo = [
             'uuid' => '222BBB',
             'name' => "Mixed Waffle by SoloWaffles",
-            'total' => '7.9'
+            'price' => '7.9'
         ];
 
         MyCart::add($itemOne);
@@ -191,13 +218,13 @@ class MyCartTest extends TestCase
         $itemOne = [
             'uuid' => '111AAA',
             'name' => "Lemon Waffle by SoloWaffles",
-            'total' => '8.5'
+            'price' => '8.5'
         ];
 
         $itemTwo = [
             'uuid' => '222BBB',
             'name' => "Mixed Waffle by SoloWaffles",
-            'total' => '7.9'
+            'price' => '7.9'
         ];
 
         MyCart::add($itemOne, 'AnotherCart');
