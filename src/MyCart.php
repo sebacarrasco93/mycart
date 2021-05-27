@@ -26,11 +26,11 @@ class MyCart extends Model
         // return null;
     }
 
-    public function getByUuid(string $uuid)
+    public function findByUuid(string $uuid)
     {
         if ($get = $this->get()) {
             $found = $get->where('uuid', $uuid);
-            
+
             return $found ? $found->first() : null;
         }
     }
