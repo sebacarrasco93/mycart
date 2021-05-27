@@ -112,4 +112,40 @@ class MyCartTest extends TestCase
 
         $this->assertNull(MyCart::get('customCart'));
     }
+
+    /** @test */
+    function it_can_knows_its_count_of_items() {
+        $itemOne = [
+            'uuid' => '111AAA',
+            'name' => "Lemon Waffle by SoloWaffles",
+        ];
+
+        $itemTwo = [
+            'uuid' => '222BBB',
+            'name' => "Mixed Waffle by SoloWaffles",
+        ];
+        
+        MyCart::add($itemOne);
+        MyCart::add($itemTwo);
+
+        $this->assertEquals(2, MyCart::count());
+    }
+
+    /** @test */
+    function it_can_knows_its_count_of_items_with_a_custom_key() {
+        $itemOne = [
+            'uuid' => '111AAA',
+            'name' => "Lemon Waffle by SoloWaffles",
+        ];
+
+        $itemTwo = [
+            'uuid' => '222BBB',
+            'name' => "Mixed Waffle by SoloWaffles",
+        ];
+        
+        MyCart::add($itemOne, 'customCart');
+        MyCart::add($itemTwo, 'customCart');
+
+        $this->assertEquals(2, MyCart::count('customCart'));
+    }
 }

@@ -41,4 +41,13 @@ class MyCart extends Model
 
         session([$this->sessionName => $this->attributes]);
     }
+
+    public function count(string $key = 'items')
+    {
+        if ($get = $this->get($key)) {
+            return $get->count();
+        }
+
+        return 0;
+    }
 }
