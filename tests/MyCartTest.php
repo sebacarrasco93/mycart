@@ -49,4 +49,39 @@ class MyCartTest extends TestCase
         $this->assertEquals($itemOne, MyCart::get()[0]);
         $this->assertEquals($itemTwo, MyCart::get()[1]);
     }
+
+    /** @test */
+    function it_can_get_an_item_by_their_uuid() {
+        $itemOne = [
+            'uuid' => '111AAA',
+            'name' => "Lemon Waffle by SoloWaffles",
+        ];
+
+        $itemTwo = [
+            'uuid' => '222BBB',
+            'name' => "Mixed Waffle by SoloWaffles",
+        ];
+        
+        MyCart::add($itemOne);
+        MyCart::add($itemTwo);
+
+        $this->assertEquals($itemTwo, MyCart::getByUuid('222BBB'));
+    }
+
+    /** @test */
+    function it_can_get_an_item_by_their_uuid_if_it_is_inexistent() {
+        $itemOne = [
+            'uuid' => '111AAA',
+            'name' => "Lemon Waffle by SoloWaffles",
+        ];
+        
+        MyCart::add($itemOne);
+
+        $this->assertNull(MyCart::getByUuid('222BBB'));
+    }
+
+    /** @test */
+    function it_can_get_an_item_by_their_uuid_if_it_doesnt_have_any_items() {
+        $this->assertNull(MyCart::getByUuid('222BBB'));
+    }
 }
