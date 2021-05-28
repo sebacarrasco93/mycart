@@ -9,17 +9,24 @@ use SebaCarrasco93\MyCart\MyCartServiceProvider;
 class AttributesTest extends TestCase
 {
     /** @test */
-    function it_can_get_the_original_items_key() {
-        MyCart::itemsKey();
+    function it_can_get_attributes_using_get() {
+        MyCart::setItemsKey('customItemKey');
 
-        $this->assertEquals('items', MyCart::getFacadeRoot()->key);
+        $this->assertEquals('customItemKey', MyCart::getAttribute('itemsKey'));
+    }
+
+    /** @test */
+    function it_can_get_the_original_items_key() {
+        MyCart::setItemsKey();
+
+        $this->assertEquals('items', MyCart::getAttribute('itemsKey'));
     }
 
     /** @test */
     function it_can_set_the_original_items_key() {
-        MyCart::itemsKey('MyCart');
+        MyCart::setItemsKey('MyCart');
 
-        $this->assertEquals('MyCart', MyCart::getFacadeRoot()->key);
+        $this->assertEquals('MyCart', MyCart::getAttribute('itemsKey'));
     }
 
     /** @test */
@@ -28,7 +35,7 @@ class AttributesTest extends TestCase
 
         MyCart::hasItems();
 
-        $this->assertTrue(MyCart::getFacadeRoot()->hasItems);
+        $this->assertTrue(MyCart::getAttribute('hasItems'));
     }
 
     /** @test */
@@ -37,14 +44,14 @@ class AttributesTest extends TestCase
 
         MyCart::hasItems('customCart');
 
-        $this->assertTrue(MyCart::getFacadeRoot()->hasItems);
+        $this->assertTrue(MyCart::getAttribute('hasItems'));
     }
 
     /** @test */
     function it_knows_when_it_doesnt_have_any_items() {
         MyCart::hasItems();
 
-        $this->assertFalse(MyCart::getFacadeRoot()->hasItems);
+        $this->assertFalse(MyCart::getAttribute('hasItems'));
     }
 
     /** @test */
@@ -53,7 +60,7 @@ class AttributesTest extends TestCase
 
         MyCart::hasItems('customCart');
 
-        $this->assertFalse(MyCart::getFacadeRoot()->hasItems);
+        $this->assertFalse(MyCart::getAttribute('hasItems'));
     }
 
     /** @test */
@@ -63,7 +70,7 @@ class AttributesTest extends TestCase
 
         MyCart::countItems();
         
-        $this->assertEquals(2, MyCart::getFacadeRoot()->countItems);
+        $this->assertEquals(2, MyCart::getAttribute('countItems'));
     }
 
     /** @test */
@@ -74,18 +81,18 @@ class AttributesTest extends TestCase
 
         MyCart::countItems('someNewKey');
         
-        $this->assertEquals(1, MyCart::getFacadeRoot()->countItems);
+        $this->assertEquals(1, MyCart::getAttribute('countItems'));
 
         MyCart::countItems();
         
-        $this->assertEquals(2, MyCart::getFacadeRoot()->countItems);
+        $this->assertEquals(2, MyCart::getAttribute('countItems'));
     }
 
     /** @test */
     function it_knows_the_count_of_items_when_it_doesnt_have_any_items() {
         MyCart::countItems();
         
-        $this->assertEquals(0, MyCart::getFacadeRoot()->countItems);
+        $this->assertEquals(0, MyCart::getAttribute('countItems'));
     }
 
     /** @test */
@@ -94,6 +101,6 @@ class AttributesTest extends TestCase
         
         MyCart::countItems('AnotherCustomKey');
         
-        $this->assertEquals(0, MyCart::getFacadeRoot()->countItems);
+        $this->assertEquals(0, MyCart::getAttribute('countItems'));
     }
 }

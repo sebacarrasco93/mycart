@@ -10,23 +10,22 @@ class MyCart extends Model
 {
     use Attributes, KeyNames;
 
-    public function add(array $item, string $key = null)
+    public function add(array $item, string $itemsKey = null)
     {
-        $key = $this->itemsKey($key);
+        $this->setItemsKey($itemsKey);
 
-
-        $this->attributes[$key][] = $item;
+        $this->attributes[$this->itemsKey][] = $item;
 
         session([$this->getSessionName() => $this->attributes]);
     }
 
-    public function get(string $key = null)
+    public function get(string $itemsKey = null)
     {
-        $key = $this->itemsKey($key);
+        $this->setItemsKey($itemsKey);
 
         if ($sesion = session($this->getSessionName())) {
-            if (isset($sesion[$key])) {
-                return collect($sesion[$key]);
+            if (isset($sesion[$this->itemsKey])) {
+                return collect($sesion[$this->itemsKey]);
             }
         }
 
@@ -42,33 +41,33 @@ class MyCart extends Model
         }
     }
 
-    public function flush(string $key = null)
+    public function flush(string $itemsKey = null)
     {
-        $key = $this->itemsKey($key);
+        $this->setItemsKey($itemsKey);
 
-        $this->attributes[$key] = null;
+        $this->attributes[$this->itemsKey] = null;
 
         session([$this->getSessionName() => $this->attributes]);
     }
 
-    public function count(string $key = null)
+    public function count(string $itemsKey = null)
     {
-        $key = $this->itemsKey($key);
+        $this->setItemsKey($itemsKey);
 
-        if ($get = $this->get($key)) {
+        if ($get = $this->get($this->itemsKey)) {
             return $get->count();
         }
 
         return 0;
     }
 
-    public function total(string $key = null, $priceName = null)
+    public function total(string $itemsKey = null, $priceName = null)
     {
-        $key = $this->itemsKey($key);
+        $this->setItemsKey($itemsKey);
 
         $priceName = $priceName ?? $this->getPriceName();
 
-        if ($get = $this->get($key)) {
+        if ($get = $this->get($this->itemsKey)) {
             return $get->pluck($priceName)->sum();
         }
 

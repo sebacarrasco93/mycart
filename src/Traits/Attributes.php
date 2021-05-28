@@ -4,30 +4,34 @@ namespace SebaCarrasco93\MyCart\Traits;
 
 trait Attributes
 {
+    public $itemsKey; // 'items'
+
     public $hasItems = false;
     public $countItems = 0;
-    public $key;
 
-    public function itemsKey(string $key = null)
+    public function getAttribute($attributeName)
     {
-        // should return $key ?? "item"
-        $this->key = $key ?? $this->getItemsName();
-
-        return $this->key;
+        return $this->$attributeName;
     }
 
-    public function hasItems(string $key = null)
+    public function setItemsKey(string $customItemsKey = null)
     {
-        $key = $this->itemsKey($key);
-
-        $this->hasItems = (bool) $this->get($key);
+        // should return $customItemsKey ?? "item"
+        $this->itemsKey = $customItemsKey ?? $this->getItemsName();
     }
 
-    public function countItems(string $key = null)
+    public function hasItems(string $customItemsKey = null)
     {
-        $key = $this->itemsKey($key);
+        $this->setItemsKey($customItemsKey);
 
-        $get = $this->get($key);
+        $this->hasItems = (bool) $this->get($this->itemsKey);
+    }
+
+    public function countItems(string $customItemsKey = null)
+    {
+        $this->setItemsKey($customItemsKey);
+
+        $get = $this->get($this->itemsKey);
 
         if ($get) {
             $this->countItems = count($get);
