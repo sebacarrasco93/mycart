@@ -6,6 +6,13 @@ trait Attributes
 {
     public $hasItems = false;
     public $countItems = 0;
+    public $key;
+
+    public function itemsKey(string $key = null)
+    {
+        // should return $key ?? "item"
+        $this->key = $key ?? $this->getItemsName();
+    }
 
     public function hasItems(string $key = 'items')
     {

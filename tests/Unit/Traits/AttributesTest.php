@@ -9,6 +9,20 @@ use SebaCarrasco93\MyCart\MyCartServiceProvider;
 class AttributesTest extends TestCase
 {
     /** @test */
+    function it_can_get_the_original_items_key() {
+        MyCart::itemsKey();
+
+        $this->assertEquals('items', MyCart::getFacadeRoot()->key);
+    }
+
+    /** @test */
+    function it_can_set_the_original_items_key() {
+        MyCart::itemsKey('MyCart');
+
+        $this->assertEquals('MyCart', MyCart::getFacadeRoot()->key);
+    }
+
+    /** @test */
     function it_knows_when_it_has_items() {
         MyCart::add($this->itemOne);
 
