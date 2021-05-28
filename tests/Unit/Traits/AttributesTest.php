@@ -16,6 +16,13 @@ class AttributesTest extends TestCase
     }
 
     /** @test */
+    function it_can_get_the_original_price_key() {
+        MyCart::setPriceKey();
+
+        $this->assertEquals('price', MyCart::getAttribute('priceKey'));
+    }
+
+    /** @test */
     function it_can_get_the_original_items_key() {
         MyCart::setItemsKey();
 

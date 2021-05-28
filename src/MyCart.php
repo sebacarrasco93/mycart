@@ -59,12 +59,12 @@ class MyCart extends Model
         return $this->countItems;
     }
 
-    public function total(string $customItemsKey = null, string $customPriceName = null)
+    public function total(string $customItemsKey = null, string $customPriceKey = null)
     {
         $this->setItemsKey($customItemsKey);
-        $customPriceName = $customPriceName ?? $this->getPriceName();
+        $this->setPriceKey($customPriceKey);
         
-        $this->calculateTotal($customItemsKey, $customPriceName);
+        $this->calculateTotal($customItemsKey, $customPriceKey);
 
         return $this->total;
     }

@@ -5,6 +5,7 @@ namespace SebaCarrasco93\MyCart\Traits;
 trait Attributes
 {
     public $itemsKey; // 'items'
+    public $priceKey; // 'price'
 
     public $hasItems = false;
     public $countItems = 0;
@@ -13,6 +14,12 @@ trait Attributes
     public function getAttribute($attributeName)
     {
         return $this->$attributeName;
+    }
+
+    public function setPriceKey(string $customPriceKey = null)
+    {
+        // should return $customPriceKey ?? "price"
+        $this->priceKey = $customPriceKey ?? $this->getPriceName();
     }
 
     public function setItemsKey(string $customItemsKey = null)
@@ -39,14 +46,14 @@ trait Attributes
         }
     }
 
-    public function calculateTotal(string $customItemsKey = null, string $customPriceName = null)
+    public function calculateTotal(string $customItemsKey = null, string $customPriceKey = null)
     {
         $this->setItemsKey($customItemsKey);
 
-        $customPriceName = $customPriceName ?? $this->getPriceName();
+        $customPriceKey = $customPriceKey ?? $this->getPriceName();
 
         if ($get = $this->get($this->itemsKey)) {
-            $this->total = $get->pluck($customPriceName)->sum();
+            $this->total = $get->pluck($customPriceKey)->sum();
         }
     }
 }
