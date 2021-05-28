@@ -3,23 +3,11 @@
 namespace SebaCarrasco93\MyCart;
 
 use Jenssegers\Model\Model;
+use SebaCarrasco93\MyCart\Traits\KeyNames;
 
 class MyCart extends Model
 {
-    public function getSessionName()
-    {
-        return config('mycart.session_name');
-    }
-
-    public function getItemsName()
-    {
-        return config('mycart.items_name');
-    }
-
-    public function getPriceName()
-    {
-        return config('mycart.price_name');
-    }
+    use KeyNames;
 
     public function add(array $item, string $key = null)
     {
