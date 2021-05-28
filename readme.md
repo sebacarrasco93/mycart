@@ -2,17 +2,17 @@
 
 An open source, simple in syntax, and ready to use package for Shopping Carts managing with Sessions from Backend, with Laravel.
 
-## Requirements
+### Requirements
 
 - Laravel 8 or above
 
-## Installation
+### Installation
 
-```sh
+```bash
 composer require sebacarrasco93/mycart
 ```
 
-## Usage
+### Usage
 
 Adding item(s):
 
@@ -56,11 +56,11 @@ Finding by UUID:
 return MyCart::findByUuid('222BBB'); // returns $itemOne
 ```
 
-## Example
+### Example
 
 You can find a Laravel implementation [here](https://github.com/sebacarrasco93/example-mycart)
 
-## Default configuration
+### Default configuration
 
 MyCart uses 3 names:
 
@@ -70,25 +70,25 @@ MyCart uses 3 names:
 | ITEMS_NAME   | items         | Name of the key's session    |
 | PRICE_NAME   | price         | Name of an item's price      |
 
-## Custom configuration
+### Custom configuration
 
 Depending on what you need, you can prefer one or another solution. However, there are two ways to do this:
 
-### By setting .env keys
+#### By setting .env keys
 
 You need to copy and change these values:
 
-```env
+```bash
 MYCART_SESSION_NAME=your_custom_session_name
 MYCART_ITEMS_NAME=your_custom_items_name
 MYCART_PRICE_NAME=your_custom_price_field_name
 ```
 
-### By publishing a config file
+#### By publishing a config file
 
 Simply run:
 
-```sh
+```bash
 php artisan vendor:publish --provider="SebaCarrasco93\MyCart\MyCartServiceProvider"
 ```
 
@@ -100,3 +100,23 @@ Laravel will publish a configuration file in `config/mycart.php`, so you can cha
 
 'price_name' => env('MYCART_PRICE_NAME', 'your_custom_price_field_name'),
 ```
+
+### Changing My Cart's lifetime
+
+Since behind the scenes it works with Laravel's sessions, MyCart will work as another Laravel session.
+
+So, for example, if you want to increase the maximum lifetime from default, 2 hours (120 minutes) to 24 hours (1440 minutes), the only thing you need to change is the `SESSION_LIFETIME` value in your project's `.env` file
+
+Before (2 hours):
+
+```bash
+SESSION_LIFETIME=120
+```
+
+After (one day):
+
+```bash
+SESSION_LIFETIME=1440
+```
+
+Easy Peasy!
