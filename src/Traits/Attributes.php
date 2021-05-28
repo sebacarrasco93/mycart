@@ -12,15 +12,21 @@ trait Attributes
     {
         // should return $key ?? "item"
         $this->key = $key ?? $this->getItemsName();
+
+        return $this->key;
     }
 
-    public function hasItems(string $key = 'items')
+    public function hasItems(string $key = null)
     {
+        $key = $this->itemsKey($key);
+
         $this->hasItems = (bool) $this->get($key);
     }
 
-    public function countItems(string $key = 'items')
+    public function countItems(string $key = null)
     {
+        $key = $this->itemsKey($key);
+
         $get = $this->get($key);
 
         if ($get) {

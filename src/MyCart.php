@@ -12,7 +12,8 @@ class MyCart extends Model
 
     public function add(array $item, string $key = null)
     {
-        $key = $key ?? $this->getItemsName();
+        $key = $this->itemsKey($key);
+
 
         $this->attributes[$key][] = $item;
 
@@ -21,7 +22,7 @@ class MyCart extends Model
 
     public function get(string $key = null)
     {
-        $key = $key ?? $this->getItemsName();
+        $key = $this->itemsKey($key);
 
         if ($sesion = session($this->getSessionName())) {
             if (isset($sesion[$key])) {
@@ -43,7 +44,7 @@ class MyCart extends Model
 
     public function flush(string $key = null)
     {
-        $key = $key ?? $this->getItemsName();
+        $key = $this->itemsKey($key);
 
         $this->attributes[$key] = null;
 
@@ -52,7 +53,7 @@ class MyCart extends Model
 
     public function count(string $key = null)
     {
-        $key = $key ?? $this->getItemsName();
+        $key = $this->itemsKey($key);
 
         if ($get = $this->get($key)) {
             return $get->count();
@@ -63,7 +64,8 @@ class MyCart extends Model
 
     public function total(string $key = null, $priceName = null)
     {
-        $key = $key ?? $this->getItemsName();
+        $key = $this->itemsKey($key);
+
         $priceName = $priceName ?? $this->getPriceName();
 
         if ($get = $this->get($key)) {
