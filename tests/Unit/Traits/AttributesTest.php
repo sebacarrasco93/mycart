@@ -103,4 +103,14 @@ class AttributesTest extends TestCase
         
         $this->assertEquals(0, MyCart::getAttribute('countItems'));
     }
+
+    /** @test */
+    function it_can_calculate_the_total() {
+        MyCart::add($this->itemOne);
+        MyCart::add($this->itemTwo);
+
+        MyCart::calculateTotal();
+
+        $this->assertEquals(16.4, MyCart::getAttribute('total'));
+    }
 }

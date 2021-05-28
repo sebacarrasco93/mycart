@@ -10,18 +10,18 @@ class MyCart extends Model
 {
     use Attributes, KeyNames;
 
-    public function add(array $item, string $itemsKey = null)
+    public function add(array $item, string $customItemsKey = null)
     {
-        $this->setItemsKey($itemsKey);
+        $this->setItemsKey($customItemsKey);
 
         $this->attributes[$this->itemsKey][] = $item;
 
         session([$this->getSessionName() => $this->attributes]);
     }
 
-    public function get(string $itemsKey = null)
+    public function get(string $customItemsKey = null)
     {
-        $this->setItemsKey($itemsKey);
+        $this->setItemsKey($customItemsKey);
 
         if ($sesion = session($this->getSessionName())) {
             if (isset($sesion[$this->itemsKey])) {
@@ -41,36 +41,31 @@ class MyCart extends Model
         }
     }
 
-    public function flush(string $itemsKey = null)
+    public function flush(string $customItemsKey = null)
     {
-        $this->setItemsKey($itemsKey);
+        $this->setItemsKey($customItemsKey);
 
         $this->attributes[$this->itemsKey] = null;
 
         session([$this->getSessionName() => $this->attributes]);
     }
 
-    public function count(string $itemsKey = null)
+    public function count(string $customItemsKey = null)
     {
-        $this->setItemsKey($itemsKey);
+        $this->setItemsKey($customItemsKey);
 
-        if ($get = $this->get($this->itemsKey)) {
-            return $get->count();
-        }
+        $this->countItems($customItemsKey);
 
-        return 0;
+        return $this->countItems;
     }
 
-    public function total(string $itemsKey = null, $priceName = null)
+    public function total(string $customItemsKey = null, string $customPriceName = null)
     {
-        $this->setItemsKey($itemsKey);
+        $this->setItemsKey($customItemsKey);
+        $customPriceName = $customPriceName ?? $this->getPriceName();
+        
+        $this->calculateTotal($customItemsKey, $customPriceName);
 
-        $priceName = $priceName ?? $this->getPriceName();
-
-        if ($get = $this->get($this->itemsKey)) {
-            return $get->pluck($priceName)->sum();
-        }
-
-        return 0;
+        return $this->total;
     }
 }

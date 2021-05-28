@@ -8,6 +8,7 @@ trait Attributes
 
     public $hasItems = false;
     public $countItems = 0;
+    public $total = 0;
 
     public function getAttribute($attributeName)
     {
@@ -35,6 +36,17 @@ trait Attributes
 
         if ($get) {
             $this->countItems = count($get);
+        }
+    }
+
+    public function calculateTotal(string $customItemsKey = null, string $customPriceName = null)
+    {
+        $this->setItemsKey($customItemsKey);
+
+        $customPriceName = $customPriceName ?? $this->getPriceName();
+
+        if ($get = $this->get($this->itemsKey)) {
+            $this->total = $get->pluck($customPriceName)->sum();
         }
     }
 }

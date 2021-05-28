@@ -100,11 +100,11 @@ class MyCartTest extends TestCase
     }
 
     /** @test */
-    function it_knows_its_total() {
+    function it_can_get_its_total() {
         MyCart::add($this->itemOne);
-        MyCart::add($this->itemTwo);
+        MyCart::add($this->itemOne);
 
-        $this->assertEquals(16.4, MyCart::total());
+        $this->assertEquals(17, MyCart::total());
     }
 
     /** @test */
