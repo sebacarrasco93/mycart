@@ -8,6 +8,23 @@ use SebaCarrasco93\MyCart\MyCartServiceProvider;
 
 class TestCase extends BaseTestCase
 {
+    protected function setUp() : void
+    {
+        parent::setUp();
+        
+        $this->itemOne = [
+            'uuid' => '111AAA',
+            'name' => "Lemon Waffle by SoloWaffles",
+            'price' => '8.5',
+        ];
+
+        $this->itemTwo = [
+            'uuid' => '222BBB',
+            'name' => "Mixed Waffle by SoloWaffles",
+            'price' => '7.9',
+        ];
+    }
+
     protected function getPackageProviders($app)
     {
         return [

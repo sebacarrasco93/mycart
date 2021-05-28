@@ -10,87 +10,47 @@ class MyCartTest extends TestCase
 {
     /** @test */
     function it_can_add_an_item() {
-        $item = [
-            'uuid' => '111AAA',
-            'name' => "Lemon Waffle by SoloWaffles",
-        ];
-        
-        MyCart::add($item);
+        MyCart::add($this->itemOne);
 
-        $this->assertEquals($item, session('mycart')['items'][0]);
+        $this->assertEquals($this->itemOne, session('mycart')['items'][0]);
     }
 
     /** @test */
     function it_can_add_an_item_on_a_custom_items_key() {
         config(['mycart.items_name' => 'products']);
-
-        $item = [
-            'uuid' => '111AAA',
-            'name' => "Lemon Waffle by SoloWaffles",
-        ];
         
-        MyCart::add($item);
+        MyCart::add($this->itemOne);
 
-        $this->assertEquals($item, session('mycart')['products'][0]);
+        $this->assertEquals($this->itemOne, session('mycart')['products'][0]);
     }
 
     /** @test */
-    function it_can_add_an_item_on_a_custom_session_key() {
-        $item = [
-            'uuid' => '111AAA',
-            'name' => "Lemon Waffle by SoloWaffles",
-        ];
+    function it_can_add_an_item_on_a_custom_session_key() {        
+        MyCart::add($this->itemOne, 'waffles');
         
-        MyCart::add($item, 'waffles');
-        
-        $this->assertEquals($item, session('mycart')['waffles'][0]);
+        $this->assertEquals($this->itemOne, session('mycart')['waffles'][0]);
     }
 
     /** @test */
-    function it_can_get_all_the_items() {
-        $itemOne = [
-            'uuid' => '111AAA',
-            'name' => "Lemon Waffle by SoloWaffles",
-        ];
+    function it_can_get_all_the_items() {        
+        MyCart::add($this->itemOne);
+        MyCart::add($this->itemTwo);
 
-        $itemTwo = [
-            'uuid' => '222BBB',
-            'name' => "Mixed Waffle by SoloWaffles",
-        ];
-        
-        MyCart::add($itemOne);
-        MyCart::add($itemTwo);
-
-        $this->assertEquals($itemOne, MyCart::get()[0]);
-        $this->assertEquals($itemTwo, MyCart::get()[1]);
+        $this->assertEquals($this->itemOne, MyCart::get()[0]);
+        $this->assertEquals($this->itemTwo, MyCart::get()[1]);
     }
 
     /** @test */
     function it_can_find_an_item_by_their_uuid() {
-        $itemOne = [
-            'uuid' => '111AAA',
-            'name' => "Lemon Waffle by SoloWaffles",
-        ];
+        MyCart::add($this->itemOne);
+        MyCart::add($this->itemTwo);
 
-        $itemTwo = [
-            'uuid' => '222BBB',
-            'name' => "Mixed Waffle by SoloWaffles",
-        ];
-        
-        MyCart::add($itemOne);
-        MyCart::add($itemTwo);
-
-        $this->assertEquals($itemTwo, MyCart::findByUuid('222BBB'));
+        $this->assertEquals($this->itemTwo, MyCart::findByUuid('222BBB'));
     }
 
     /** @test */
     function it_can_find_an_item_by_their_uuid_if_it_is_inexistent() {
-        $itemOne = [
-            'uuid' => '111AAA',
-            'name' => "Lemon Waffle by SoloWaffles",
-        ];
-        
-        MyCart::add($itemOne);
+        MyCart::add($this->itemOne);
 
         $this->assertNull(MyCart::findByUuid('222BBB'));
     }
@@ -102,12 +62,7 @@ class MyCartTest extends TestCase
 
     /** @test */
     function it_can_flush_all_the_items() {
-        $itemOne = [
-            'uuid' => '111AAA',
-            'name' => "Lemon Waffle by SoloWaffles",
-        ];
-        
-        MyCart::add($itemOne);
+        MyCart::add($this->itemOne);
 
         MyCart::flush();
 
@@ -116,12 +71,7 @@ class MyCartTest extends TestCase
 
     /** @test */
     function it_can_flush_all_the_items_with_a_custom_key() {
-        $itemOne = [
-            'uuid' => '111AAA',
-            'name' => "Lemon Waffle by SoloWaffles",
-        ];
-        
-        MyCart::add($itemOne, 'customCart');
+        MyCart::add($this->itemOne, 'customCart');
 
         MyCart::flush('customCart');
 
@@ -130,36 +80,16 @@ class MyCartTest extends TestCase
 
     /** @test */
     function it_can_knows_its_count_of_items() {
-        $itemOne = [
-            'uuid' => '111AAA',
-            'name' => "Lemon Waffle by SoloWaffles",
-        ];
-
-        $itemTwo = [
-            'uuid' => '222BBB',
-            'name' => "Mixed Waffle by SoloWaffles",
-        ];
-        
-        MyCart::add($itemOne);
-        MyCart::add($itemTwo);
+        MyCart::add($this->itemOne);
+        MyCart::add($this->itemTwo);
 
         $this->assertEquals(2, MyCart::count());
     }
 
     /** @test */
     function it_can_knows_its_count_of_items_with_a_custom_key() {
-        $itemOne = [
-            'uuid' => '111AAA',
-            'name' => "Lemon Waffle by SoloWaffles",
-        ];
-
-        $itemTwo = [
-            'uuid' => '222BBB',
-            'name' => "Mixed Waffle by SoloWaffles",
-        ];
-        
-        MyCart::add($itemOne, 'customCart');
-        MyCart::add($itemTwo, 'customCart');
+        MyCart::add($this->itemOne, 'customCart');
+        MyCart::add($this->itemTwo, 'customCart');
 
         $this->assertEquals(2, MyCart::count('customCart'));
     }
@@ -171,60 +101,36 @@ class MyCartTest extends TestCase
 
     /** @test */
     function it_knows_its_total() {
-        $itemOne = [
-            'uuid' => '111AAA',
-            'name' => "Lemon Waffle by SoloWaffles",
-            'price' => '8.5'
-        ];
-
-        $itemTwo = [
-            'uuid' => '222BBB',
-            'name' => "Mixed Waffle by SoloWaffles",
-            'price' => '7.9'
-        ];
-
-        MyCart::add($itemOne);
-        MyCart::add($itemTwo);
+        MyCart::add($this->itemOne);
+        MyCart::add($this->itemTwo);
 
         $this->assertEquals(16.4, MyCart::total());
     }
 
     /** @test */
     function it_knows_its_total_with_a_custom_key() {
-        $itemOne = [
-            'uuid' => '111AAA',
-            'name' => "Lemon Waffle by SoloWaffles",
-            'price' => '8.5'
-        ];
-
-        $itemTwo = [
-            'uuid' => '222BBB',
-            'name' => "Mixed Waffle by SoloWaffles",
-            'price' => '7.9'
-        ];
-
-        MyCart::add($itemOne, 'AnotherCart');
-        MyCart::add($itemTwo, 'AnotherCart');
+        MyCart::add($this->itemOne, 'AnotherCart');
+        MyCart::add($this->itemTwo, 'AnotherCart');
 
         $this->assertEquals(16.4, MyCart::total('AnotherCart'));
     }
 
     /** @test */
     function it_knows_its_total_with_a_custom_key_and_total_name() {
-        $itemOne = [
+        $this->itemOne = [
             'uuid' => '111AAA',
             'name' => "Lemon Waffle by SoloWaffles",
             'partial_total' => '6.1'
         ];
 
-        $itemTwo = [
+        $this->itemTwo = [
             'uuid' => '222BBB',
             'name' => "Mixed Waffle by SoloWaffles",
             'partial_total' => '4.6'
         ];
 
-        MyCart::add($itemOne, 'AnotherCart', 'partial_total');
-        MyCart::add($itemTwo, 'AnotherCart', 'partial_total');
+        MyCart::add($this->itemOne, 'AnotherCart', 'partial_total');
+        MyCart::add($this->itemTwo, 'AnotherCart', 'partial_total');
 
         $this->assertEquals(10.7, MyCart::total('AnotherCart', 'partial_total'));
     }
