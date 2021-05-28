@@ -3,11 +3,12 @@
 namespace SebaCarrasco93\MyCart;
 
 use Jenssegers\Model\Model;
+use SebaCarrasco93\MyCart\Traits\Attributes;
 use SebaCarrasco93\MyCart\Traits\KeyNames;
 
 class MyCart extends Model
 {
-    use KeyNames;
+    use Attributes, KeyNames;
 
     public function add(array $item, string $key = null)
     {
