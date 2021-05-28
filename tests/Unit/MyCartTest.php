@@ -46,6 +46,19 @@ class MyCartTest extends TestCase
 
     /** @test */
     function it_can_add_an_item() {
+
+        $item = [
+            'uuid' => '111AAA',
+            'name' => "Lemon Waffle by SoloWaffles",
+        ];
+        
+        MyCart::add($item);
+
+        $this->assertEquals($item, session('mycart')['items'][0]);
+    }
+
+    /** @test */
+    function it_can_add_an_item_on_a_custom_items_key() {
         config(['mycart.items_name' => 'products']);
 
         $item = [
@@ -59,7 +72,7 @@ class MyCartTest extends TestCase
     }
 
     /** @test */
-    function it_can_add_an_item_on_a_custom_key() {
+    function it_can_add_an_item_on_a_custom_session_key() {
         $item = [
             'uuid' => '111AAA',
             'name' => "Lemon Waffle by SoloWaffles",

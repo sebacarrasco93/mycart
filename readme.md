@@ -1,6 +1,6 @@
 # MyCart for Laravel
 
-An open source, simple syntax, and ready to use package for manage Shopping Carts with Sessions from Backend with Laravel.
+An open source, simple in syntax, and ready to use package for Shopping Carts managing with Sessions from Backend, with Laravel.
 
 ## Requirements
 
@@ -92,7 +92,7 @@ Simply run:
 php artisan vendor:publish --provider="SebaCarrasco93\MyCart\MyCartServiceProvider"
 ```
 
-Laravel will publish configuration file in `config/mycart.php`, so you can change the values by opening it.
+Laravel will publish a configuration file in `config/mycart.php`, so you can change the values by opening it.
 ```php
 'session_name' => env('MYCART_SESSION_NAME', 'your_custom_session_name'),
 
