@@ -120,3 +120,9 @@ SESSION_LIFETIME=1440
 ```
 
 Easy Peasy!
+
+### Testing
+
+```bash
+./vendor/bin/pest
+```

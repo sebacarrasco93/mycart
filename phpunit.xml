@@ -5,19 +5,14 @@
          colors="true"
 >
     <testsuites>
-        <testsuite name="Unit">
-            <directory suffix="Test.php">./tests/Unit</directory>
+        <testsuite name="Test Suite">
+            <directory suffix="Test.php">./tests</directory>
         </testsuite>
-        <!-- <testsuite name="Feature">
-            <directory suffix="Test.php">./tests/Feature</directory>
-        </testsuite> -->
     </testsuites>
     <coverage processUncoveredFiles="true">
         <include>
+            <directory suffix=".php">./app</directory>
             <directory suffix=".php">./src</directory>
         </include>
     </coverage>
-    <php>
-        <server name="SESSION_DRIVER" value="array"/>
-    </php>
 </phpunit>
