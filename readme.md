@@ -119,6 +119,26 @@ After (one day):
 SESSION_LIFETIME=1440
 ```
 
+### Changing My Cart's Session storage
+
+Same as My Cart's Lifetime, storage depends of your project's configuration.
+
+Go to your `.env` file, and can change the `SESSION_DRIVER` key's value.
+
+Default Laravel config:
+
+```
+SESSION_DRIVER=file
+```
+
+Custom config:
+
+```
+SESSION_DRIVER=cookie # or database, memcached, array, etc.
+```
+
+You can see all the options in the [Laravel Session Docs](https://laravel.com/docs/8.x/session#configuration)
+
 Easy Peasy!
 
 ### Testing
