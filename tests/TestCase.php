@@ -4,6 +4,7 @@ namespace SebaCarrasco93\MyCart\Tests;
 
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use SebaCarrasco93\MyCart\Facades\MyCart;
+use SebaCarrasco93\MyCart\MyCart as MyCartClass;
 use SebaCarrasco93\MyCart\MyCartServiceProvider;
 
 class TestCase extends BaseTestCase
@@ -23,6 +24,8 @@ class TestCase extends BaseTestCase
             'name' => "Mixed Waffle by SoloWaffles",
             'price' => '7.9',
         ];
+
+        $this->myCart = new MyCartClass();
     }
 
     protected function getPackageProviders($app)

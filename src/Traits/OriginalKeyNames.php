@@ -2,7 +2,7 @@
 
 namespace SebaCarrasco93\MyCart\Traits;
 
-trait KeyNames
+trait OriginalKeyNames
 {
     public function getSessionName()
     {
