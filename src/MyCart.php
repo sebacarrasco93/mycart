@@ -111,8 +111,8 @@ class MyCart extends Model
 
     public function setCount()
     {
-        // $this->setAllKeys();
-
+        $this->init();
+        
         if ($get = $this->get()) {
             $this->itemsCount = count($get);
         }
@@ -125,9 +125,16 @@ class MyCart extends Model
         return $this->itemsCount;
     }
 
+    public function count()
+    {
+        return $this->getCount();
+    }
+
     public function setTotal()
     {
-        if ($get = $this->get($this->itemsKey)) {
+        $this->init();
+
+        if ($get = $this->get()) {
             $this->itemsTotal = $get->pluck($this->keyPriceName)->sum();
         }
 
@@ -139,5 +146,10 @@ class MyCart extends Model
         $this->setTotal();
 
         return $this->itemsTotal;
+    }
+
+    public function total()
+    {
+        return $this->getTotal();
     }
 }
