@@ -5,7 +5,7 @@ namespace SebaCarrasco93\MyCart\Tests\Unit;
 use SebaCarrasco93\MyCart\Tests\TestCase;
 use SebaCarrasco93\MyCart\MyCart;
 
-class MyCartTest extends TestCase
+class MyCartTestOld extends TestCase
 {
     /** @test */
     function it_knows_its_original_session_name() {

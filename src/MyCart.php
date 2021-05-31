@@ -49,11 +49,11 @@ class MyCart extends Model
         $this->keyPriceName = $customPriceName ?? $this->getKeyPriceName();
     }
 
-    public function setAllKeys(string $customItemsName = null, string $customPriceName = null, string $customSessionName = null)
+    public function setAllKeys()
     {
-        $this->setKeyItemsName($customItemsName);
-        $this->setKeyPriceName($customPriceName);
-        $this->setKeySessionName($customSessionName);
+        $this->setKeyItemsName();
+        $this->setKeyPriceName();
+        $this->setKeySessionName();
     }
 
     public function getAllKeys()
@@ -61,12 +61,19 @@ class MyCart extends Model
         $this->getKeySessionName();
         $this->getKeyItemsName();
         $this->getKeyPriceName();
+
+        // return $this;
     }
 
-    public function add(array $item, string $customItemsName = null, string $customPriceName = null, string $customSessionName = null)
+    public function init()
     {
-        $this->setAllKeys($customItemsName);
+        $this->setAllKeys();
         $this->getAllKeys();
+    }
+
+    public function add(array $item)
+    {
+        $this->init();
 
         $this->attributes[$this->keyItemsName][] = $item;
 
@@ -75,8 +82,7 @@ class MyCart extends Model
 
     public function get(string $customItemsName = null)
     {
-        $this->setAllKeys($customItemsName);
-        $this->getAllKeys();
+        $this->init();
 
         if ($sesion = session($this->getSessionName())) {
             if (isset($sesion[$this->keyItemsName])) {
@@ -96,31 +102,41 @@ class MyCart extends Model
         }
     }
 
-    public function flush(string $customItemsName = null)
+    public function flush()
     {
-        $this->setAllKeys($customItemsName);
-
         $this->attributes[$this->keyItemsName] = null;
 
         session([$this->getSessionName() => $this->attributes]);
     }
 
-    public function setCount(string $customItemsName = null)
+    public function setCount()
     {
-        $this->setAllKeys($customItemsName);
+        // $this->setAllKeys();
 
-        if ($get = $this->get($customItemsName)) {
+        if ($get = $this->get()) {
             $this->itemsCount = count($get);
         }
     }
 
-    public function setTotal(string $customItemsName = null, string $customPriceName = null)
+    public function getCount()
     {
-        $this->setAllKeys($customItemsName, $customPriceName);
+        $this->setCount();
 
+        return $this->itemsCount;
+    }
+
+    public function setTotal()
+    {
         if ($get = $this->get($this->itemsKey)) {
             $this->itemsTotal = $get->pluck($this->keyPriceName)->sum();
         }
+
+        return $this->itemsTotal;
+    }
+
+    public function getTotal()
+    {
+        $this->setTotal();
 
         return $this->itemsTotal;
     }
