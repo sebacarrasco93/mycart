@@ -4,7 +4,6 @@ namespace SebaCarrasco93\MyCart\Tests\Unit;
 
 use SebaCarrasco93\MyCart\Tests\TestCase;
 use SebaCarrasco93\MyCart\MyCart;
-use SebaCarrasco93\MyCart\MyCartServiceProvider;
 
 class MyCartTest extends TestCase
 {
