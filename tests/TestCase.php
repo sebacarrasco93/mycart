@@ -3,7 +3,7 @@
 namespace SebaCarrasco93\MyCart\Tests;
 
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use SebaCarrasco93\MyCart\Facades\MyCart;
+// use SebaCarrasco93\MyCart\Facades\MyCart;
 use SebaCarrasco93\MyCart\MyCart as MyCartClass;
 use SebaCarrasco93\MyCart\MyCartServiceProvider;
 

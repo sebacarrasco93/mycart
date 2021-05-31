@@ -10,67 +10,52 @@ class MyCartTest extends TestCase
 {
     /** @test */
     function it_knows_its_original_session_name() {
-        $myCart = new MyCart();
-
-        $this->assertEquals('mycart', $myCart->getKeySessionName());
+        $this->assertEquals('mycart', $this->myCart->getKeySessionName());
     }
 
     /** @test */
     function it_knows_its_custom_session_name() {
-        $myCart = new MyCart();
-        
-        $myCart->setKeySessionName('myowncart');
+        $this->myCart->setKeySessionName('myowncart');
 
-        $this->assertEquals('myowncart', $myCart->getKeySessionName());
+        $this->assertEquals('myowncart', $this->myCart->getKeySessionName());
     }
 
     /** @test */
     function it_knows_its_custom_items_name() {
-        $myCart = new MyCart();
-        
-        $myCart->setKeyItemsName('myownitems');
+        $this->myCart->setKeyItemsName('myownitems');
 
-        $this->assertEquals('myownitems', $myCart->getKeyItemsName());
+        $this->assertEquals('myownitems', $this->myCart->getKeyItemsName());
     }
 
     /** @test */
     function it_knows_its_original_items_name() {
-        $myCart = new MyCart();
-
-        $this->assertEquals('items', $myCart->getKeyItemsName());
+        $this->assertEquals('items', $this->myCart->getKeyItemsName());
     }
 
     /** @test */
     function it_knows_its_custom_price_name() {
-        $myCart = new MyCart();
-        
-        $myCart->setKeyPriceName('myownprice');
+        $this->myCart->setKeyPriceName('myownprice');
 
-        $this->assertEquals('myownprice', $myCart->getKeyPriceName());
+        $this->assertEquals('myownprice', $this->myCart->getKeyPriceName());
     }
 
     /** @test */
     function it_knows_its_original_price_name() {
-        $myCart = new MyCart();
-
-        $this->assertEquals('price', $myCart->getKeyPriceName());
+        $this->assertEquals('price', $this->myCart->getKeyPriceName());
     }
 
     /** @test */
     function it_knows_all_of_its_attributes() {
-        $myCart = new MyCart();
+        $this->myCart->setAllKeys('myownitems', 'myownprice', 'myownsession');
 
-        $myCart->setAllKeys('myownitems', 'myownprice', 'myownsession');
-
-        $this->assertEquals('myownitems', $myCart->keyItemsName);
-        $this->assertEquals('myownprice', $myCart->keyPriceName);
-        $this->assertEquals('myownsession', $myCart->keySessionName);
+        $this->assertEquals('myownitems', $this->myCart->keyItemsName);
+        $this->assertEquals('myownprice', $this->myCart->keyPriceName);
+        $this->assertEquals('myownsession', $this->myCart->keySessionName);
     }
 
     /** @test */
     function it_can_add_an_item() {
-        $myCart = new MyCart();
-        $myCart->add($this->itemOne);
+        $this->myCart->add($this->itemOne);
 
         $this->assertEquals($this->itemOne, session('mycart')['items'][0]);
     }
@@ -79,140 +64,114 @@ class MyCartTest extends TestCase
     function it_can_add_an_item_on_a_custom_items_key_from_session() {
         config(['mycart.items_name' => 'products']);
 
-        $myCart = new MyCart();
-        $myCart->add($this->itemOne);
+        $this->myCart->add($this->itemOne);
 
         $this->assertEquals($this->itemOne, session('mycart')['products'][0]);
     }
 
     /** @test */
     function it_can_add_an_item_on_a_custom_items_key_from_parameter() {
-        $myCart = new MyCart();
-        $myCart->add($this->itemOne, 'products');
+        $this->myCart->add($this->itemOne, 'products');
         
         $this->assertEquals($this->itemOne, session('mycart')['products'][0]);
     }
 
     /** @test */
     function it_can_get_all_the_items() {
-        $myCart = new MyCart();
+        $this->myCart->add($this->itemOne);
+        $this->myCart->add($this->itemTwo);
 
-        $myCart->add($this->itemOne);
-        $myCart->add($this->itemTwo);
-
-        $this->assertEquals($this->itemOne, $myCart->get()[0]);
-        $this->assertEquals($this->itemTwo, $myCart->get()[1]);
+        $this->assertEquals($this->itemOne, $this->myCart->get()[0]);
+        $this->assertEquals($this->itemTwo, $this->myCart->get()[1]);
     }
 
     /** @test */
     function it_can_find_an_item_by_their_uuid() {
-        $myCart = new MyCart();
+        $this->myCart->add($this->itemOne);
+        $this->myCart->add($this->itemTwo);
 
-        $myCart->add($this->itemOne);
-        $myCart->add($this->itemTwo);
-
-        $this->assertEquals($this->itemTwo, $myCart->findByUuid('222BBB'));
+        $this->assertEquals($this->itemTwo, $this->myCart->findByUuid('222BBB'));
     }
 
     /** @test */
     function it_can_find_an_item_by_their_uuid_if_it_is_inexistent() {
-        $myCart = new MyCart();
+        $this->myCart->add($this->itemOne);
 
-        $myCart->add($this->itemOne);
-
-        $this->assertNull($myCart->findByUuid('222BBB'));
+        $this->assertNull($this->myCart->findByUuid('222BBB'));
     }
 
     /** @test */
     function it_can_find_an_item_by_their_uuid_if_it_doesnt_have_any_items() {
-        $myCart = new MyCart();
-
-        $this->assertNull($myCart->findByUuid('222BBB'));
+        $this->assertNull($this->myCart->findByUuid('222BBB'));
     }
 
     /** @test */
     function it_can_flush_all_the_items() {
-        $myCart = new MyCart();
+        $this->myCart->add($this->itemOne);
 
-        $myCart->add($this->itemOne);
+        $this->myCart->flush();
 
-        $myCart->flush();
-
-        $this->assertNull($myCart->get());
+        $this->assertNull($this->myCart->get());
     }
 
     /** @test */
     function it_can_flush_all_the_items_with_a_custom_key() {
-        $myCart = new MyCart();
+        $this->myCart->add($this->itemOne, 'customCart');
 
-        $myCart->add($this->itemOne, 'customCart');
+        $this->myCart->flush('customCart');
 
-        $myCart->flush('customCart');
-
-        $this->assertNull($myCart->get('customCart'));
+        $this->assertNull($this->myCart->get('customCart'));
     }
 
     /** @test */
     function it_can_knows_its_count_of_items() {
-        $myCart = new MyCart();
+        $this->myCart->add($this->itemOne);
+        $this->myCart->add($this->itemTwo);
 
-        $myCart->add($this->itemOne);
-        $myCart->add($this->itemTwo);
+        $this->myCart->setCount();
 
-        $myCart->setCount();
-
-        $this->assertEquals(2, $myCart->itemsCount);
+        $this->assertEquals(2, $this->myCart->itemsCount);
     }
 
     /** @test */
     function it_can_set_its_count_of_items_with_a_custom_key() {
-        $myCart = new MyCart();
+        $this->myCart->add($this->itemOne, 'customCart');
+        $this->myCart->add($this->itemTwo, 'customCart');
 
-        $myCart->add($this->itemOne, 'customCart');
-        $myCart->add($this->itemTwo, 'customCart');
+        $this->myCart->setCount();
 
-        $myCart->setCount();
-
-        $this->assertEquals(2, $myCart->itemsCount);
+        $this->assertEquals(2, $this->myCart->itemsCount);
     }
 
     /** @test */
     function it_can_set_its_count_of_zero_items_if_doesnt_have_items() {
-        $myCart = new MyCart();
+        $this->myCart->setCount();
 
-        $myCart->setCount();
-
-        $this->assertEquals(0, $myCart->itemsCount);
+        $this->assertEquals(0, $this->myCart->itemsCount);
     }
 
     /** @test */
     function it_can_set_its_total() {
-        $myCart = new MyCart();
+        $this->myCart->add($this->itemOne);
+        $this->myCart->add($this->itemOne);
 
-        $myCart->add($this->itemOne);
-        $myCart->add($this->itemOne);
+        $this->myCart->setTotal();
 
-        $myCart->setTotal();
-
-        $this->assertEquals(17, $myCart->itemsTotal);
+        $this->assertEquals(17, $this->myCart->itemsTotal);
     }
 
     /** @test */
     function it_knows_its_total_with_a_custom_key() {
-        $myCart = new MyCart();
+        $this->myCart->add($this->itemOne, 'AnotherCart');
+        $this->myCart->add($this->itemTwo, 'AnotherCart');
 
-        $myCart->add($this->itemOne, 'AnotherCart');
-        $myCart->add($this->itemTwo, 'AnotherCart');
+        $this->myCart->setTotal('AnotherCart');
 
-        $myCart->setTotal('AnotherCart');
-
-        $this->assertEquals(16.4, $myCart->itemsTotal);
+        $this->assertEquals(16.4, $this->myCart->itemsTotal);
     }
 
     /** @test */
     function it_knows_its_total_with_a_custom_key_and_total_name() {
-        $myCart = new MyCart();
-
         $this->itemOne = [
             'uuid' => '111AAA',
             'name' => "Lemon Waffle by SoloWaffles",
@@ -225,20 +184,18 @@ class MyCartTest extends TestCase
             'partial_total' => '4.6'
         ];
 
-        $myCart->add($this->itemOne, 'AnotherCart', 'partial_total');
-        $myCart->add($this->itemTwo, 'AnotherCart', 'partial_total');
+        $this->myCart->add($this->itemOne, 'AnotherCart', 'partial_total');
+        $this->myCart->add($this->itemTwo, 'AnotherCart', 'partial_total');
 
-        $myCart->setTotal('AnotherCart', 'partial_total');
+        $this->myCart->setTotal('AnotherCart', 'partial_total');
 
-        $this->assertEquals(10.7, $myCart->itemsTotal);
+        $this->assertEquals(10.7, $this->myCart->itemsTotal);
     }
 
     /** @test */
     function it_can_get_total_of_zero_if_doesnt_have_items() {
-        $myCart = new MyCart();
+        $this->myCart->setTotal();
 
-        $myCart->setTotal();
-
-        $this->assertEquals(0, $myCart->total);
+        $this->assertEquals(0, $this->myCart->total);
     }
 }
