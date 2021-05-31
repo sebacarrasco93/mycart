@@ -142,6 +142,52 @@ class MyCartFacadeTest extends TestCase
     }
 
     /** @test */
+    function it_can_delete_an_item() {
+        $this->oldItemOne = [
+            'uuid' => '111AAA',
+            'name' => "Lemon Waffle by SoloWaffles",
+            'price' => '6.1'
+        ];
+
+        MyCart::add($this->oldItemOne);
+
+        MyCart::delete('111AAA');
+
+        $this->assertEquals(0, MyCart::count());
+    }
+
+    /** @test */
+    function it_can_update_an_item() {
+        $this->oldItemOne = [
+            'uuid' => '111AAA',
+            'name' => "Lemon Waffle by SoloWaffles",
+            'price' => '6.1'
+        ];
+
+        MyCart::add($this->oldItemOne);
+
+        $this->newItemOne = [
+            'uuid' => '111AAA',
+            'name' => "Super Waffle by SoloWaffles",
+            'price' => '7.1'
+        ];
+
+        MyCart::update('111AAA', $this->newItemOne);
+
+        $this->assertEquals(
+            'Super Waffle by SoloWaffles',
+            MyCart::get()[0]['name']
+        );
+        $this->assertEquals(
+            7.1,
+            MyCart::get()[0]['price']
+        );
+
+        $this->assertEquals(7.1, MyCart::getTotal());
+        $this->assertEquals(1, MyCart::count());
+    }
+
+    /** @test */
     function it_can_flush_all_the_items() {
         MyCart::add($this->itemOne);
 

@@ -102,6 +102,32 @@ class MyCart extends Model
         }
     }
 
+    public function delete(string $uuid)
+    {
+        $remove = $this->findByUuid($uuid);
+
+        $get = $this->get();
+
+        $this->flush();
+
+        $found = $get->reject(function ($item) use ($uuid) {
+            return $item['uuid'] == $uuid;
+        });
+
+        return $found->each(function ($item) {
+            $this->add($item);
+        });
+    }
+
+    public function update(string $uuid, array $newItem)
+    {
+        $get = $this->get();
+
+        $itemsExceptDeleted = $this->delete($uuid);
+
+        $this->add($newItem);
+    }
+
     public function flush()
     {
         $this->attributes[$this->keyItemsName] = null;
@@ -112,7 +138,7 @@ class MyCart extends Model
     public function setCount()
     {
         $this->init();
-        
+
         if ($get = $this->get()) {
             $this->itemsCount = count($get);
         }
